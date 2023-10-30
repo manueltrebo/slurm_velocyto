@@ -24,9 +24,9 @@ $ nextflow run main.nf -profile cluster,conda
 
 **CSV file**
 ```
-study,sample_id,bam
-cohort_1,sample_1,/path/to/Sample1_possorted.bam
-cohort_2,sample_2,/path/to/Sample2_possorted.bam
+study,sample_id,bam,bcl
+cohort_1,sample_1,/path/to/Sample1_possorted.bam,/path/to/Sample1_barcodes.tsv
+cohort_2,sample_2,/path/to/Sample2_possorted.bam,/path/to/Sample2_barcodes.tsv
 
 ```
 
