@@ -8,8 +8,6 @@ $ git clone https://github.com/icbi-lab/NeoFuse.git
 
 **\<Arguments\>**
 
--o: Output directory
-
 --input_csv           = path to the input CSV file (see below for details)
 
 --gtf_file            = path to GTF file (used for the creation of the BAM files)
