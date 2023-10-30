@@ -32,7 +32,7 @@ workflow VELOCYTO {
     // Create velo input ch
     velo_input = PARSE_INPUT.out
                 .splitCsv(header:true)
-                .map{row -> [row.Sample_ID, file(row.File_Path)]}
+                .map{row -> [row.Sample_ID, file(row.BAM_File_Path), file(row.BCL_File_Path)]}
 
     // Run velocyto for each sample - excluded the samtools-threads param
     if ( params.run_10x == false ) {

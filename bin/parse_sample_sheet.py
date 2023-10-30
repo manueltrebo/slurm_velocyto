@@ -17,17 +17,21 @@ def process_csv(input_file, output_file):
             # Concatenate the first two columns with "_"
             key = f"{row.iloc[0]}_{row.iloc[1]}"
             # Get the file path from the third column
-            file_path = row.iloc[2]
+            bam_file_path = row.iloc[2]
+            bcl_file_path = row.iloc[3]
 
             # Check if the file exists
-            if os.path.isfile(file_path):
-                # Append the concatenated key and the file path to the valid rows list
-                valid_rows.append([key, file_path])
+            if os.path.isfile(bam_file_path):
+                if os.path.isfile(bcl_file_path):
+                    # Append the concatenated key and the file paths to the valid rows list
+                    valid_rows.append([key, bam_file_path, bcl_file_path])
+                else:
+                    raise FileNotFoundError(f"File not found: {bcl_file_path}")
             else:
-                raise FileNotFoundError(f"File not found: {file_path}")
+                raise FileNotFoundError(f"File not found: {bam_file_path}")
 
         # Create a new DataFrame with the valid rows
-        result_df = pd.DataFrame(valid_rows, columns=['Sample_ID', 'File_Path'])
+        result_df = pd.DataFrame(valid_rows, columns=['Sample_ID', 'BAM_File_Path', 'BCL_File_Path'])
 
         # Save the result DataFrame to a new CSV file
         result_df.to_csv(output_file, index=False)

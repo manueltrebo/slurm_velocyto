@@ -11,7 +11,7 @@ process RUN_VELO {
     conda "/home/fotakis/.conda/envs/velocyto/"
     
     input:
-    tuple val(meta), path(input_bam)
+    tuple val(meta), path(input_bam), path(input_bcl)
     path(transcriptome)
     path(repeats)
     val(samtools_threads)
@@ -24,7 +24,8 @@ process RUN_VELO {
 
     script:
     """
-    velocyto run -m $repeats \\
+    velocyto run -b $input_bcl \\
+                -m $repeats \\
                 --samtools-threads $samtools_threads \\
                 -o ./$meta \\
                 $input_bam \\
