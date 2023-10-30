@@ -3,7 +3,7 @@
 #TODO: documentation
 ### 1.1. Usage
 ```
-$ git clone https://github.com/icbi-lab/NeoFuse.git
+$ nextflow run main.nf -profile cluster,conda
 ```
 
 **\<Arguments\>**
