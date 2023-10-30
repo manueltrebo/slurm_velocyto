@@ -6,7 +6,9 @@ process RUN_VELO {
     publishDir "$out_dir", params.publish_dir_mode
 
     // Run only if velocyto is not installed locally
-    // conda "../assets/env.yml"
+    // uncomend this if you don't have the env locally or build it and specify the path below
+    // conda "$baseDir/assets/env.yml"
+    conda "/home/fotakis/.conda/envs/velocyto/"
     
     input:
     tuple val(meta), path(input_bam)
