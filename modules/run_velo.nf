@@ -13,7 +13,8 @@ process RUN_VELO {
     path(transcriptome)
     path(repeats)
     val(samtools_threads)
-    val(samtools_mem)
+    // skipped - returns error
+    // val(samtools_mem)
     path(out_dir)
 
     output:
@@ -23,7 +24,6 @@ process RUN_VELO {
     """
     velocyto run -m $repeats \\
                 --samtools-threads $samtools_threads \\
-                --samtools-memory $samtools_mem \\
                 -o ./$meta \\
                 $input_bam \\
                 $transcriptome
