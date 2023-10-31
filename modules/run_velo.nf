@@ -3,7 +3,7 @@ process RUN_VELO {
 
     label 'process_medium'
 
-    publishDir "$out_dir", params.publish_dir_mode
+    publishDir "$out_dir", mode: params.publish_dir_mode
 
     // Run only if velocyto is not installed locally
     // uncomend this if you don't have the env locally or build it and specify the path below
