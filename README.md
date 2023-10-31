@@ -22,7 +22,7 @@ $ nextflow run main.nf -profile cluster,conda
 
 **Notes**
 
-**CSV file**
+**CSV file (default settings)**
 ```
 study,sample_id,bam,bcl
 cohort_1,sample_1,/path/to/Sample1_possorted.bam,/path/to/Sample1_barcodes.tsv
@@ -32,7 +32,7 @@ cohort_2,sample_2,/path/to/Sample2_possorted.bam,/path/to/Sample2_barcodes.tsv
 
 * If you choose the --run_10x true you need to change the input CSV file to specify the cellranger directories instead of specific bam files (not tested yet)
 
-**CSV file**
+**CSV file (run_10x flag)**
 ```
 study,sample_id,bam
 cohort_1,sample_1,/path/to/Sample1/
