@@ -30,17 +30,30 @@ workflow VELOCYTO {
     PARSE_INPUT(ch_input_csv)
 
     // Create velo input ch
-    velo_input = PARSE_INPUT.out
+    if (out_dir == ""){
+        velo_input = PARSE_INPUT.out
                 .splitCsv(header:true)
-                .map{row -> [row.Sample_ID, file(row.BAM_File_Path), file(row.BCL_File_Path)]}
+                .map{row -> [row.Sample_ID,
+                            file(row.BAM_File_Path),
+                            file(row.BCL_File_Path),
+                            file(row.BAM_File_Path).getParent()]}
+    } else {
+        velo_input = PARSE_INPUT.out
+                .splitCsv(header:true)
+                .map{row -> [row.Sample_ID,
+                            file(row.BAM_File_Path),
+                            file(row.BCL_File_Path),
+                            out_dir]}
+    }
+    
 
     // Run velocyto for each sample - excluded the samtools-threads param
     if ( params.run_10x == false ) {
         RUN_VELO(velo_input,
                 ch_gtf,
                 ch_mask_repeats,
-                sam_th,
-                out_dir)
+                sam_th)
+                // out_dir)
     } else {
         RUN_VELO_10X(velo_input,
                 ch_gtf,
