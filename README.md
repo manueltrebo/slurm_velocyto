@@ -22,6 +22,10 @@ $ nextflow run main.nf -profile cluster,conda
 
 **Notes**
 
+**Outpur directory
+
+The pipeline will output the results in the /path/to/Sample.bam directory by default. You need to specify a directory through --out_dir otherwise.
+
 **CSV file (default settings)**
 ```
 study,sample_id,bam,bcl

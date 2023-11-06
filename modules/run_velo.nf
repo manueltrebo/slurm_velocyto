@@ -1,4 +1,5 @@
 process RUN_VELO {
+    errorStrategy 'ignore'
     tag "$meta"
 
     label 'process_medium'
@@ -33,3 +34,4 @@ process RUN_VELO {
                 $transcriptome
     """
 }
+                

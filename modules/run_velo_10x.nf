@@ -27,4 +27,4 @@ process RUN_VELO_10X {
                 $cellrenger_out_dir \\
                 $transcriptome
     """
-}
+}               
