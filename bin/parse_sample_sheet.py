@@ -44,7 +44,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(
                     prog='Sample sheet parser',
                     description='Sanitize input CSV file',
-                    epilog='Text at the bottom of help')
+                    epilog='Print this message and exit')
 
     parser.add_argument('-i', '--input')
     parser.add_argument('-o', '--output')
