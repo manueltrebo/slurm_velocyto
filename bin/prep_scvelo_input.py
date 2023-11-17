@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import os
 import argparse
 import scvelo as scv
@@ -22,12 +24,13 @@ def rename_barcodes(loom_file, sample_ids):
     barcodes = [bc.split(':')[1] for bc in ldata.obs.index.tolist()]
     barcodes = [sample_ids + '-' + bc[0:len(bc)-1]  for bc in barcodes]
     ldata.obs.index = barcodes
+    ldata.obs.index.rename("CellID", inplace=True)
     return ldata
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
                     prog='Sample sheet parser',
-                    description='Sanitize input CSV file',
+                    description='convert loom file\'s index',
                     epilog='Print this message and exit')
 
     parser.add_argument('-i', '--input')
@@ -44,4 +47,4 @@ if __name__ == '__main__':
     sanitised_id = split_id(s_id, "_")
     final_ldata = rename_barcodes(input_loom, sanitised_id)
     final_ldata.write_loom(out_dir + sanitised_id + '.loom')
-    print(final_ldata.obs)
+    # print(final_ldata.obs)

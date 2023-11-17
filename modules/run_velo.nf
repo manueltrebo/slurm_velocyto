@@ -10,7 +10,7 @@ process RUN_VELO {
     // uncomend this if you don't have the env locally or build it and specify the path below
     // conda "$baseDir/assets/env.yml"
     conda "/home/fotakis/.conda/envs/velocyto/"
-    
+
     input:
     tuple val(meta), path(input_bam), path(input_bcl), val(bam_path)
     path(transcriptome)
@@ -22,9 +22,11 @@ process RUN_VELO {
 
     output:
     path("*")
+    tuple val(meta), path("*/*.loom"), emit: ch_loom
 
     script:
     out_dir = "$bam_path/"
+
     """
     velocyto run -b $input_bcl \\
                 -m $repeats \\

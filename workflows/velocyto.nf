@@ -11,6 +11,7 @@ nextflow.enable.dsl = 2
 include { PARSE_INPUT   } from '../modules/parse_input'
 include { RUN_VELO      } from '../modules/run_velo'
 include { RUN_VELO_10X  } from '../modules/run_velo_10x'
+include { CONVERT_LOOM  } from '../modules/convert_loom'
 
 //
 // WORKFLOW: Run main analysis pipeline
@@ -18,9 +19,9 @@ include { RUN_VELO_10X  } from '../modules/run_velo_10x'
 ch_input_csv = file(params.input_csv)
 ch_gtf = file(params.gtf_file)
 ch_mask_repeats = file(params.masked_repeats)
-sam_th = "10"
+sam_th = params.sam_threads
 // Returns error:
-// sam_mem = "4"
+// sam_mem = ""
 out_dir = params.out_dir
 
 
@@ -45,9 +46,8 @@ workflow VELOCYTO {
                             file(row.BCL_File_Path),
                             out_dir]}
     }
-    
 
-    // Run velocyto for each sample - excluded the samtools-threads param
+    // Run velocyto for each sample (excluded the samtools-threads param)
     if ( params.run_10x == false ) {
         RUN_VELO(velo_input,
                 ch_gtf,
@@ -59,5 +59,13 @@ workflow VELOCYTO {
                 ch_gtf,
                 ch_mask_repeats,
                 sam_th)
+    }
+
+    // Change the lomm's file obs.index to match the H5AD files  
+    // (used for downstream merging - tailored after the cohort's naming convention)
+    if ( params.convert_loom == true ) {
+        // RUN_VELO.out.ch_loom.view()
+        CONVERT_LOOM(RUN_VELO.out.ch_loom,
+                    params.custom_loom_dir)
     }
 }
