@@ -61,7 +61,7 @@ workflow VELOCYTO {
                 sam_th)
     }
 
-    // Change the lomm's file obs.index to match the H5AD files  
+    // Change the loom's file obs.index to match the H5AD files  
     // (used for downstream merging - tailored after the cohort's naming convention)
     if ( params.convert_loom == true ) {
         // RUN_VELO.out.ch_loom.view()
