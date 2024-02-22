@@ -28,16 +28,11 @@ process RUN_VELO {
     out_dir = "$bam_path/"
 
     """
-    cat \\
-        <(samtools view -HS $input_bam) \\
-        <(samtools view $input_bam | grep "MA:Z:*"  | sed  "s/MA:Z:/UB:Z:/" ) | \\
-    samtools view -Sb -@6 > ${input_bam.baseName}.for_velocyto.bam
-
     velocyto run -b $input_bcl \\
                 -m $repeats \\
                 --samtools-threads $samtools_threads \\
                 -o $meta \\
-                ${input_bam.baseName}.for_velocyto.bam \\
+                $input_bam \\
                 $transcriptome
     """
 }

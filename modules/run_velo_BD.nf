@@ -1,4 +1,4 @@
-process RUN_VELO {
+process RUN_VELO_BD {
     errorStrategy 'ignore'
     tag "$meta"
 

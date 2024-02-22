@@ -11,6 +11,7 @@ nextflow.enable.dsl = 2
 include { PARSE_INPUT   } from '../modules/parse_input'
 include { RUN_VELO      } from '../modules/run_velo'
 include { RUN_VELO_10X  } from '../modules/run_velo_10x'
+include { RUN_VELO_BD  } from '../modules/run_velo_bd'
 include { CONVERT_LOOM  } from '../modules/convert_loom'
 
 //
@@ -48,17 +49,22 @@ workflow VELOCYTO {
     }
 
     // Run velocyto for each sample (excluded the samtools-threads param)
-    if ( params.run_10x == false ) {
-        RUN_VELO(velo_input,
-                ch_gtf,
-                ch_mask_repeats,
-                sam_th)
-                // out_dir)
-    } else {
+    if ( params.platform == "BD" ) {
+        RUN_VELO_BD(velo_input,
+            ch_gtf,
+            ch_mask_repeats,
+            sam_th)
+            // out_dir)
+    } else if ( params.platform == "10x" ) {
         RUN_VELO_10X(velo_input,
-                ch_gtf,
-                ch_mask_repeats,
-                sam_th)
+            ch_gtf,
+            ch_mask_repeats,
+            sam_th)
+    } else {
+        RUN_VELO(velo_input,
+            ch_gtf,
+            ch_mask_repeats,
+            sam_th)
     }
 
     // Change the loom's file obs.index to match the H5AD files  
