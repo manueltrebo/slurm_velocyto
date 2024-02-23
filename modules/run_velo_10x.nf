@@ -19,8 +19,11 @@ process RUN_VELO_10X {
 
     output:
     path("*")
+    tuple val(meta), path("*/*.loom"), emit: ch_loom
 
     script:
+    out_dir = "$bam_path/"
+    
     """
     velocyto run10x -m $repeats \\
                 -@ $samtools_threads \\

@@ -3,11 +3,11 @@
 import os
 import argparse
 import scvelo as scv
-import scanpy as sc
-import numpy as np
-import pandas as pd
+# import scanpy as sc
+# import numpy as np
+# import pandas as pd
 import anndata as ad
-import matplotlib as plt
+# import matplotlib as plt
 from scipy import io
 from scipy.sparse import coo_matrix, csr_matrix
 

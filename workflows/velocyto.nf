@@ -11,7 +11,7 @@ nextflow.enable.dsl = 2
 include { PARSE_INPUT   } from '../modules/parse_input'
 include { RUN_VELO      } from '../modules/run_velo'
 include { RUN_VELO_10X  } from '../modules/run_velo_10x'
-include { RUN_VELO_BD  } from '../modules/run_velo_bd'
+include { RUN_VELO_BD  } from '../modules/run_velo_BD'
 include { CONVERT_LOOM  } from '../modules/convert_loom'
 
 //
@@ -67,11 +67,21 @@ workflow VELOCYTO {
             sam_th)
     }
 
-    // Change the loom's file obs.index to match the H5AD files  
+    // Change the loom's file obs.index to match the H5AD files
     // (used for downstream merging - tailored after the cohort's naming convention)
     if ( params.convert_loom == true ) {
-        // RUN_VELO.out.ch_loom.view()
-        CONVERT_LOOM(RUN_VELO.out.ch_loom,
+        if ( params.platform == "BD" ) {
+            CONVERT_LOOM(RUN_VELO_BD.out.ch_loom,
                     params.custom_loom_dir)
-    }
+            // out_dir)
+        } else if ( params.platform == "10x" ) {
+            CONVERT_LOOM(RUN_VELO_10X.out.ch_loom,
+                    params.custom_loom_dir)
+        } else {
+            CONVERT_LOOM(RUN_VELO.out.ch_loom,
+                    params.custom_loom_dir)
+        }
+        // RUN_VELO.out.ch_loom.view()
+        
+    } 
 }
