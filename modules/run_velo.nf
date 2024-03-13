@@ -1,5 +1,6 @@
 process RUN_VELO {
-    errorStrategy 'ignore'
+    stageInMode 'copy'
+    // errorStrategy 'ignore'
     tag "$meta"
 
     label 'process_medium'
@@ -12,28 +13,32 @@ process RUN_VELO {
     conda "/home/fotakis/.conda/envs/velocyto/"
 
     input:
-    tuple val(meta), path(input_bam), path(input_bcl), val(bam_path)
+    tuple val(meta), path(input_bam), path(input_bcl)
     path(transcriptome)
     path(repeats)
     val(samtools_threads)
+    val(out_dir)
     // skipped - returns error
     // val(samtools_mem)
-    // path(out_dir)
 
     output:
-    path("*")
-    tuple val(meta), path("*/*.loom"), emit: ch_loom
+    // path("velocyto/*.loom")
+    tuple val(meta), path("velocyto/*.loom"), emit: ch_loom
 
     script:
-    out_dir = "$bam_path/"
-
     """
+    zip -cdf $transcriptome > annotation.gtf
+    
     velocyto run -b $input_bcl \\
                 -m $repeats \\
                 --samtools-threads $samtools_threads \\
-                -o $meta \\
                 $input_bam \\
-                $transcriptome
+                annotation.gtf
+    
+    rm $repeats
+    rm $input_bam
+    rm $transcriptome
+    rm annotation.gtf
     """
 }
                 

@@ -21,10 +21,9 @@ ch_input_csv = file(params.input_csv)
 ch_gtf = file(params.gtf_file)
 ch_mask_repeats = file(params.masked_repeats)
 sam_th = params.sam_threads
-// Returns error:
-// sam_mem = ""
 out_dir = params.out_dir
-
+// Returns error:
+// sam_mem = "params.sam_mem"
 
 workflow VELOCYTO {
 
@@ -32,39 +31,34 @@ workflow VELOCYTO {
     PARSE_INPUT(ch_input_csv)
 
     // Create velo input ch
-    if (out_dir == ""){
-        velo_input = PARSE_INPUT.out
+    velo_input = PARSE_INPUT.out
                 .splitCsv(header:true)
                 .map{row -> [row.Sample_ID,
                             file(row.BAM_File_Path),
-                            file(row.BCL_File_Path),
-                            file(row.BAM_File_Path).getParent()]}
-    } else {
-        velo_input = PARSE_INPUT.out
-                .splitCsv(header:true)
-                .map{row -> [row.Sample_ID,
-                            file(row.BAM_File_Path),
-                            file(row.BCL_File_Path),
-                            out_dir]}
-    }
+                            file(row.BCL_File_Path)
+                        ]
+                    }
 
     // Run velocyto for each sample (excluded the samtools-threads param)
     if ( params.platform == "BD" ) {
         RUN_VELO_BD(velo_input,
             ch_gtf,
             ch_mask_repeats,
-            sam_th)
-            // out_dir)
+            sam_th,
+            out_dir)
     } else if ( params.platform == "10x" ) {
+        // TODO: implement for cellranger ouput directory
         RUN_VELO_10X(velo_input,
             ch_gtf,
             ch_mask_repeats,
-            sam_th)
+            sam_th,
+            out_dir)
     } else {
         RUN_VELO(velo_input,
             ch_gtf,
             ch_mask_repeats,
-            sam_th)
+            sam_th,
+            out_dir)
     }
 
     // Change the loom's file obs.index to match the H5AD files
@@ -80,8 +74,6 @@ workflow VELOCYTO {
         } else {
             CONVERT_LOOM(RUN_VELO.out.ch_loom,
                     params.custom_loom_dir)
-        }
-        // RUN_VELO.out.ch_loom.view()
-        
+        }   
     } 
 }

@@ -12,17 +12,16 @@ process CONVERT_LOOM {
 
     input:
     tuple val(meta), path(loom_file)
-    path(loom_out_dir)
+    val(loom_out_dir)
 
     output:
-    path("*/*.loom")
+    path("*.loom")
 
     script:
-    // out_dir = params.custom_loom_dir
     """
     prep_scvelo_input.py \\
     --input $loom_file \\
     --sample_id $meta \\
-    --out_dir $loom_out_dir
+    --out_dir .
     """
 }

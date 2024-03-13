@@ -1,5 +1,5 @@
 process RUN_VELO_BD {
-    errorStrategy 'ignore'
+    // errorStrategy 'ignore'
     tag "$meta"
 
     label 'process_medium'
@@ -12,21 +12,19 @@ process RUN_VELO_BD {
     conda "/home/fotakis/.conda/envs/velocyto/"
 
     input:
-    tuple val(meta), path(input_bam), path(input_bcl), val(bam_path)
+    tuple val(meta), path(input_bam), path(input_bcl)
     path(transcriptome)
     path(repeats)
     val(samtools_threads)
+    val(out_dir)
     // skipped - returns error
     // val(samtools_mem)
-    // path(out_dir)
 
     output:
-    path("*")
-    tuple val(meta), path("*/*.loom"), emit: ch_loom
+    path("velocyto/*.loom")
+    tuple val(meta), path("velocyto/*.loom"), emit: ch_loom
 
     script:
-    out_dir = "$bam_path/"
-
     """
     cat \\
         <(samtools view -HS $input_bam) \\
@@ -36,9 +34,7 @@ process RUN_VELO_BD {
     velocyto run -b $input_bcl \\
                 -m $repeats \\
                 --samtools-threads $samtools_threads \\
-                -o $meta \\
                 ${input_bam.baseName}.for_velocyto.bam \\
                 $transcriptome
     """
 }
-                

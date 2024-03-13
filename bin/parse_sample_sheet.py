@@ -14,8 +14,8 @@ def process_csv(input_file, output_file):
 
         # Iterate through each row in the DataFrame
         for index, row in df.iterrows():
-            # Concatenate the first two columns with "_"
-            key = f"{row.iloc[0]}_{row.iloc[1]}"
+            # Concatenate the first two columns with "-"
+            key = f"{row.iloc[0]}-{row.iloc[1]}"
             # Get the file path from the third column
             bam_file_path = row.iloc[2]
             bcl_file_path = row.iloc[3]
