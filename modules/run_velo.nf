@@ -22,23 +22,24 @@ process RUN_VELO {
     // val(samtools_mem)
 
     output:
-    // path("velocyto/*.loom")
+    path("velocyto/*.loom")
     tuple val(meta), path("velocyto/*.loom"), emit: ch_loom
 
     script:
     """
-    zip -cdf $transcriptome > annotation.gtf
-    
+    gunzip -c $transcriptome > annotation.gtf
+
     velocyto run -b $input_bcl \\
                 -m $repeats \\
                 --samtools-threads $samtools_threads \\
                 $input_bam \\
                 annotation.gtf
     
+    rm $input_bcl
     rm $repeats
     rm $input_bam
-    rm $transcriptome
     rm annotation.gtf
+    rm $transcriptome
     """
 }
                 
