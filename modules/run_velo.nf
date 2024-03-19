@@ -32,6 +32,7 @@ process RUN_VELO {
     velocyto run -b $input_bcl \\
                 -m $repeats \\
                 --samtools-threads $samtools_threads \\
+                --samtools-memory 14000 \\
                 $input_bam \\
                 annotation.gtf
     
