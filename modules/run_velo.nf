@@ -10,7 +10,7 @@ process RUN_VELO {
     // Run only if velocyto is not installed locally
     // uncomend this if you don't have the env locally or build it and specify the path below
     // conda "$baseDir/assets/env.yml"
-    conda "/home/fotakis/.conda/envs/velocyto/"
+    conda "/home/q089mt/.conda/envs/velocyto/"
 
     input:
     tuple val(meta), path(input_bam), path(input_bcl)

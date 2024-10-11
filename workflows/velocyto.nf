@@ -39,6 +39,7 @@ workflow VELOCYTO {
                         ]
                     }
 
+
     // Run velocyto for each sample (excluded the samtools-threads param)
     if ( params.platform == "BD" ) {
         RUN_VELO_BD(velo_input,
