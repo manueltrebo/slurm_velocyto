@@ -22,5 +22,5 @@ set -x
 echo "Starting Nextflow job"
 
 # START THE APPLICATION
-nextflow run main.nf -profile cluster,conda
+nextflow run main.nf -profile cluster,conda -resume
 echo "Nextflow job completed"

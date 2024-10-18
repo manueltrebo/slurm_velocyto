@@ -29,8 +29,8 @@ The pipeline will output the results in the /path/to/Sample.bam directory by def
 **CSV file (default settings)**
 ```
 study,sample_id,bam,bcl
-cohort_1,sample_1,/path/to/Sample1_possorted.bam,/path/to/Sample1_barcodes.tsv
-cohort_2,sample_2,/path/to/Sample2_possorted.bam,/path/to/Sample2_barcodes.tsv
+sample_1,/path/to/Sample1_possorted.bam,/path/to/Sample1_barcodes.tsv
+sample_2,/path/to/Sample2_possorted.bam,/path/to/Sample2_barcodes.tsv
 
 ```
 

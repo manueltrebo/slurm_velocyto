@@ -18,7 +18,8 @@ def rename_barcodes(loom_file, sample_ids):
     # convention (in order to be merged with the corresponding H5AD in the downstream analysis):
     ldata = scv.read(input_loom)
     barcodes = [bc.split(':')[1] for bc in ldata.obs.index.tolist()]
-    barcodes = [sample_ids + '-' + bc[0:len(bc)-1]  for bc in barcodes]
+    #barcodes = [sample_ids + '-' + bc[0:len(bc)-1]  for bc in barcodes] # original implementation
+    barcodes = [bc[0:len(bc) - 1] + "_" + sample_ids for bc in barcodes]
     ldata.obs.index = barcodes
     ldata.obs.index.rename("CellID", inplace=True)
     return ldata

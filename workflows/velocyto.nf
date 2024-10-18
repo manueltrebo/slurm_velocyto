@@ -76,5 +76,6 @@ workflow VELOCYTO {
             CONVERT_LOOM(RUN_VELO.out.ch_loom,
                     params.custom_loom_dir)
         }   
-    } 
+    }
+
 }
