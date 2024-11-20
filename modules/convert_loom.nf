@@ -20,7 +20,7 @@ process CONVERT_LOOM {
     script:
     """
 
-    /home/q089mt/.conda/envs/velocyto/bin/python prep_scvelo_input.py \\
+    prep_scvelo_input.py \\
     --input $loom_file \\
     --sample_id $meta \\
     --out_dir .
