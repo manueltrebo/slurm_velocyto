@@ -8,3 +8,5 @@ testing*
 *.pyc
 test/
 assets/hg38_rmsk.gtf
+files/
+setup/
