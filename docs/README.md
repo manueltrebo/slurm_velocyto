@@ -1,3 +1,3 @@
-# CRC atlas - velocyto nextflow pipeline
+# velocyto BAM-LOOM preparation for main script
 
 #TODO: documentation
