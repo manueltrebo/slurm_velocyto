@@ -2,6 +2,7 @@
 
 import os
 import argparse
+import scanpy as sc
 import scvelo as scv
 import anndata as ad
 from scipy import io
@@ -16,7 +17,7 @@ from scipy.sparse import coo_matrix, csr_matrix
 def rename_barcodes(loom_file, sample_ids):
     # Function renames the barcodes in the loom file according to the <cohort-sampleID-barcode> 
     # convention (in order to be merged with the corresponding H5AD in the downstream analysis):
-    ldata = scv.read(input_loom)
+    ldata = sc.read_loom(input_loom)
     barcodes = [bc.split(':')[1] for bc in ldata.obs.index.tolist()]
     #barcodes = [sample_ids + '-' + bc[0:len(bc)-1]  for bc in barcodes] # original implementation
     barcodes = [bc[0:len(bc) - 1] + "_" + sample_ids for bc in barcodes]
