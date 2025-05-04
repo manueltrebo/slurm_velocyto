@@ -10,3 +10,4 @@ test/
 assets/hg38_rmsk.gtf
 files/
 setup/
+convert_loom_array.sh
