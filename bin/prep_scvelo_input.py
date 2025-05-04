@@ -8,18 +8,12 @@ import anndata as ad
 from scipy import io
 from scipy.sparse import coo_matrix, csr_matrix
 
-# def split_id(s, sep):
-#     # Sting manipulation of the input ID according to
-#     # the <cohort_sampleID-> convention
-#     all_split = s.split(sep)
-#     return sep.join(all_split[0:2]) + "-" + all_split[2]
 
-def rename_barcodes(loom_file, sample_ids):
+def rename_barcodes(input_loom, sample_ids):
     # Function renames the barcodes in the loom file according to the <cohort-sampleID-barcode> 
     # convention (in order to be merged with the corresponding H5AD in the downstream analysis):
     ldata = sc.read_loom(input_loom)
     barcodes = [bc.split(':')[1] for bc in ldata.obs.index.tolist()]
-    #barcodes = [sample_ids + '-' + bc[0:len(bc)-1]  for bc in barcodes] # original implementation
     barcodes = [bc[0:len(bc) - 1] + "_" + sample_ids for bc in barcodes]
     ldata.obs.index = barcodes
     ldata.obs.index.rename("CellID", inplace=True)
@@ -42,6 +36,9 @@ if __name__ == '__main__':
     if (out_dir[-1] != '/'):
         out_dir = out_dir + '/'
 
-    # sanitised_id = split_id(s_id, "_")
+    #rename the barcodes accordingly
     final_ldata = rename_barcodes(input_loom, s_id)
-    final_ldata.write_loom(out_dir + s_id + '.loom')
+    #write final files as h5ad and looms
+    final_ldata.write(out_dir + s_id + '.h5ad')
+    #uncomment if loom files are needed:
+    #final_ldata.write_loom(out_dir + s_id + '.loom')

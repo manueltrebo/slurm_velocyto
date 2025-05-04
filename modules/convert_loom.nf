@@ -15,7 +15,8 @@ process CONVERT_LOOM {
     val(loom_out_dir)
 
     output:
-    path("*.loom")
+    path("*.h5ad")
+    // path("*.loom")
 
     script:
     """
